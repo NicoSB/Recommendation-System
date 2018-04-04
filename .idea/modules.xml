@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Recommendation-System.iml" filepath="$PROJECT_DIR$/Recommendation-System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/miner/miner.iml" filepath="$PROJECT_DIR$/miner/miner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recommender/recommender.iml" filepath="$PROJECT_DIR$/recommender/recommender.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recommender-parent.iml" filepath="$PROJECT_DIR$/recommender-parent.iml" />
     </modules>
   </component>
 </project>
