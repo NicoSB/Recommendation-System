@@ -40,6 +40,7 @@ hs_err_pid*
 
 # IntelliJ
 out/
+*.iml
 
 # Maven
 target/
