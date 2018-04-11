@@ -1,0 +1,89 @@
+package ch.uzh.ifi.seal.ase.cin.recommender.model;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import java.util.Arrays;
+import java.util.Objects;
+
+public class Query {
+    @JsonIgnore
+    private String type;
+    private String[] expectedTypes;
+    private EnclosingNodeKind enclosingNodeKind;
+    private CompletionNodeKind completionNodeKind;
+    private MethodKind enclosingMethodKind;
+    private Visibility enclosingMethodVisibility;
+
+    public Query(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String[] getExpectedTypes() {
+        return expectedTypes;
+    }
+
+    public void setExpectedTypes(String[] expectedTypes) {
+        this.expectedTypes = expectedTypes;
+    }
+
+    public EnclosingNodeKind getEnclosingNodeKind() {
+        return enclosingNodeKind;
+    }
+
+    public void setEnclosingNodeKind(EnclosingNodeKind enclosingNodeKind) {
+        this.enclosingNodeKind = enclosingNodeKind;
+    }
+
+    public CompletionNodeKind getCompletionNodeKind() {
+        return completionNodeKind;
+    }
+
+    public void setCompletionNodeKind(CompletionNodeKind completionNodeKind) {
+        this.completionNodeKind = completionNodeKind;
+    }
+
+    public MethodKind getEnclosingMethodKind() {
+        return enclosingMethodKind;
+    }
+
+    public void setEnclosingMethodKind(MethodKind enclosingMethodKind) {
+        this.enclosingMethodKind = enclosingMethodKind;
+    }
+
+    public Visibility getEnclosingMethodVisibility() {
+        return enclosingMethodVisibility;
+    }
+
+    public void setEnclosingMethodVisibility(Visibility enclosingMethodVisibility) {
+        this.enclosingMethodVisibility = enclosingMethodVisibility;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Query query = (Query) o;
+        return Objects.equals(type, query.type) &&
+                Arrays.equals(expectedTypes, query.expectedTypes) &&
+                enclosingNodeKind == query.enclosingNodeKind &&
+                completionNodeKind == query.completionNodeKind &&
+                enclosingMethodKind == query.enclosingMethodKind &&
+                enclosingMethodVisibility == query.enclosingMethodVisibility;
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(type, enclosingNodeKind, completionNodeKind, enclosingMethodKind, enclosingMethodVisibility);
+        result = 31 * result + Arrays.hashCode(expectedTypes);
+        return result;
+    }
+}
