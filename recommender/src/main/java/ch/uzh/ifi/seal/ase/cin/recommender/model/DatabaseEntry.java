@@ -1,39 +1,60 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.model;
 
 import cc.kave.commons.model.naming.IName;
+import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
+
+import java.util.Objects;
 
 public class DatabaseEntry {
-    private Query query;
-    private IName selection;
+    private QuerySelectionPair pair;
     private long frequency;
 
     public DatabaseEntry(Query query, IName selection, long frequency) {
-        this.query = query;
-        this.selection = selection;
+        pair = new QuerySelectionPair(query, selection);
+        this.frequency = frequency;
+    }
+
+    public DatabaseEntry(QuerySelectionPair pair, long frequency) {
+        this.pair = pair;
         this.frequency = frequency;
     }
 
     public Query getQuery() {
-        return query;
+        return pair.getQuery();
     }
 
-    public IName getSelection() {
-        return selection;
+    public String getSelection() {
+        return pair.getSelection();
     }
 
     public long getFrequency() {
         return frequency;
     }
 
-    public void setQuery(Query query) {
-        this.query = query;
+    public QuerySelectionPair getPair() {
+        return pair;
     }
 
-    public void setSelection(IName selection) {
-        this.selection = selection;
+    public void setPair(QuerySelectionPair pair) {
+        this.pair = pair;
     }
 
     public void setFrequency(long frequency) {
         this.frequency = frequency;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DatabaseEntry that = (DatabaseEntry) o;
+        return frequency == that.frequency &&
+                Objects.equals(pair, that.pair);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(pair, frequency);
     }
 }

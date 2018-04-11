@@ -8,11 +8,11 @@ import java.util.Objects;
 public class Query {
     @JsonIgnore
     private String type;
-    private String[] expectedTypes;
-    private EnclosingNodeKind enclosingNodeKind;
-    private CompletionNodeKind completionNodeKind;
-    private MethodKind enclosingMethodKind;
-    private Visibility enclosingMethodVisibility;
+    private String[] expectedTypes = new String[] {};
+    private EnclosingNodeKind enclosingNodeKind = EnclosingNodeKind.DEFAULT;
+    private CompletionNodeKind completionNodeKind = CompletionNodeKind.DEFAULT;
+    private MethodKind enclosingMethodKind = MethodKind.NONE;
+    private Visibility enclosingMethodVisibility = Visibility.NONE;
 
     public Query(String type) {
         this.type = type;
