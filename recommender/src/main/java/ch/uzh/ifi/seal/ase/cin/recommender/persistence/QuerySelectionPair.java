@@ -10,8 +10,12 @@ public class QuerySelectionPair {
     private String selection;
 
     public QuerySelectionPair(Query query, IName selection) {
+        this(query, selection.toString());
+    }
+
+    public QuerySelectionPair(Query query, String selection) {
         this.query = query;
-        this.selection = selection.toString();
+        this.selection = selection;
     }
 
     public Query getQuery() {

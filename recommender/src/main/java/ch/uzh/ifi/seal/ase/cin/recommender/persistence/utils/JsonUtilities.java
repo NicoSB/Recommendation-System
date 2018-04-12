@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
-class JsonUtilities {
+public class JsonUtilities {
 
     private static final String JSON_POSTFIX = ".json";
 
