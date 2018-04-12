@@ -17,6 +17,8 @@ public class DatabaseEntry {
     public DatabaseEntry(QuerySelectionPair pair, long frequency) {
         this.pair = pair;
         this.frequency = frequency;
+
+
     }
 
     public Query getQuery() {
