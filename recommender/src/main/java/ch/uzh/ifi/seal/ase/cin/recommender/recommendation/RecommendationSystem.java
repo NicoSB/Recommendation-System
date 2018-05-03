@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.ase.cin.recommender;
+package ch.uzh.ifi.seal.ase.cin.recommender.recommendation;
 
 import cc.kave.commons.model.events.completionevents.Context;
 import cc.kave.commons.model.naming.IName;
@@ -9,7 +9,6 @@ import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.ModelRepository;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.TypeModel;
-import ch.uzh.ifi.seal.ase.cin.recommender.recommendation.MethodRecommender;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,8 +47,7 @@ public class RecommendationSystem implements ICallsRecommender<Query> {
     }
 
     private Query convertContext(Context context) {
-        // TODO convert context to query
-        return new Query("STUB");
+        return QueryExtractor.extractQuery(context.getSST());
     }
 
     @Override
