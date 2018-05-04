@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.ase.cin.recommender;
+package ch.uzh.ifi.seal.ase.cin.recommender.recommendation;
 
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.ModelRepository;

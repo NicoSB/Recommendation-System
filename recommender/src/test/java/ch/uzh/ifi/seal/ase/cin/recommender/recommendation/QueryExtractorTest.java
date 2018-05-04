@@ -1,22 +1,24 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.recommendation;
 
+import cc.kave.commons.model.naming.codeelements.IMethodName;
 import cc.kave.commons.model.naming.impl.v0.types.TypeName;
 import cc.kave.commons.model.naming.types.ITypeName;
 import cc.kave.commons.model.ssts.ISST;
 import cc.kave.commons.model.ssts.IStatement;
 import cc.kave.commons.model.ssts.expressions.assignable.ICompletionExpression;
 import cc.kave.commons.model.ssts.impl.SST;
-import cc.kave.commons.model.ssts.impl.declarations.MethodDeclaration;
+import ch.uzh.ifi.seal.ase.cin.recommender.model.MethodKind;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
-import com.google.common.collect.Lists;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static cc.kave.commons.utils.ssts.SSTUtils.*;
+import static ch.uzh.ifi.seal.ase.cin.TestUtils.assertContains;
+import static ch.uzh.ifi.seal.ase.cin.SSTTestUtils.createSSTWithMethod;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class QueryExtractorTest {
 
@@ -31,9 +33,9 @@ public class QueryExtractorTest {
 
     @Test
     public void extractsTypeName() {
-        ITypeName typeName = new TypeName("assembly,Test");
+        ITypeName typeName = new TypeName("Test,assembly");
         IStatement statement = completionStmt(typeName, "");
-        ISST sst = buildSST(statement);
+        ISST sst = createSSTWithMethod(null, statement);
 
         Query actual = QueryExtractor.extractQuery(sst);
 
@@ -49,7 +51,7 @@ public class QueryExtractorTest {
         ICompletionExpression completionExpression = completionExpr(typeName, "ge");
         IStatement assignment = assign(variable, completionExpression);
 
-        ISST sst = buildSST(variableDeclaration, assignment);
+        ISST sst = createSSTWithMethod(null, variableDeclaration, assignment);
 
         Query actual = QueryExtractor.extractQuery(sst);
 
@@ -60,24 +62,42 @@ public class QueryExtractorTest {
     public void whenNoTypeIsExpected_expectedTypeIsEmpty() {
         ITypeName typeName = new TypeName("Test,assembly");
         IStatement statement = completionStmt(typeName, "");
-        ISST sst = buildSST(statement);
+        ISST sst = createSSTWithMethod(null, statement);
 
         Query actual = QueryExtractor.extractQuery(sst);
 
         assertContains(actual.getExpectedTypes(), "");
     }
 
-    private static SST buildSST(IStatement... body) {
-        MethodDeclaration md = new MethodDeclaration();
-        md.setBody(Lists.newArrayList(body));
+    @Test
+    public void whenEnclosingMethodIsStatic_enclosingMethodKindIsClass() {
+        IMethodName methodName = mock(IMethodName.class);
+        when(methodName.getFullName()).thenReturn("test");
+        when(methodName.isStatic()).thenReturn(true);
 
-        SST sst = new SST();
-        sst.getMethods().add(md);
+        ITypeName typeName = new TypeName("Test,assembly");
+        IStatement statement = completionStmt(typeName, "");
 
-        return sst;
+        ISST sst = createSSTWithMethod(methodName, statement);
+
+        Query actual = QueryExtractor.extractQuery(sst);
+
+        assertEquals(MethodKind.CLASS, actual.getEnclosingMethodKind());
     }
 
-    private void assertContains(Object[] objects, Object obj) {
-        assertTrue(Arrays.asList(objects).contains(obj));
+    @Test
+    public void whenEnclosingMethodIsNotStatic_enclosingMethodKindIsInstance() {
+        IMethodName methodName = mock(IMethodName.class);
+        when(methodName.getFullName()).thenReturn("test");
+        when(methodName.isStatic()).thenReturn(false);
+
+        ITypeName typeName = new TypeName("Test,assembly");
+        IStatement statement = completionStmt(typeName, "");
+
+        ISST sst = createSSTWithMethod(methodName, statement);
+
+        Query actual = QueryExtractor.extractQuery(sst);
+
+        assertEquals(MethodKind.INSTANCE, actual.getEnclosingMethodKind());
     }
 }
