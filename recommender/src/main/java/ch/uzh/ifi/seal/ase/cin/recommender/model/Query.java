@@ -86,4 +86,16 @@ public class Query {
         result = 31 * result + Arrays.hashCode(expectedTypes);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Query{" +
+                "type='" + type + '\'' +
+                ", expectedTypes=" + Arrays.toString(expectedTypes) +
+                ", enclosingNodeKind=" + enclosingNodeKind +
+                ", completionNodeKind=" + completionNodeKind +
+                ", enclosingMethodKind=" + enclosingMethodKind +
+                ", enclosingMethodVisibility=" + enclosingMethodVisibility +
+                '}';
+    }
 }
