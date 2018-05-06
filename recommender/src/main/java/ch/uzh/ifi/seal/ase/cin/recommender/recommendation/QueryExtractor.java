@@ -18,13 +18,17 @@ public class QueryExtractor {
     public static Query extractQuery(ISST sst) {
         Optional<CompletionInfo> completionInfoOptional = CompletionInfo.extractCompletionInfoFrom(sst);
 
-        if (!completionInfoOptional.isPresent())
+        if (!completionInfoOptional.isPresent()) {
             return null;
+        }
 
         return extractQuery(completionInfoOptional.get(), sst);
     }
 
     private static Query extractQuery(CompletionInfo completionInfo, ISST sst) {
+        if (completionInfo.getTriggeredType() == null)
+            return null;
+
         Query query = new Query(completionInfo.getTriggeredType().getFullName());
 
         String[] expectedTypes = extractExpectedTypes(completionInfo);

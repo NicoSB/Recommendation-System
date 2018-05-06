@@ -9,6 +9,8 @@ import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.ModelRepository;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.TypeModel;
+import com.google.common.collect.Sets;
+import com.sun.istack.internal.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,9 @@ public class RecommendationSystem implements ICallsRecommender<Query> {
 
     @Override
     public Set<Tuple<IMethodName, Double>> query(Query query) {
+        if (query == null)
+            return Sets.newHashSet();
+
         String modelId = query.getType();
         TypeModel typemodel = getOrCreateTypeModel(modelId);
 
