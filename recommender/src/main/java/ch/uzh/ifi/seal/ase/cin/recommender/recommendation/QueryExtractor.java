@@ -10,15 +10,20 @@ import ch.uzh.ifi.seal.ase.cin.recommender.model.EnclosingNodeKind;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.util.SSTUtils;
 import ch.uzh.ifi.seal.ase.cin.recommender.util.StatementToNodeKindMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
 public class QueryExtractor {
 
+    private static Logger logger = LogManager.getLogger(QueryExtractor.class);
+
     public static Query extractQuery(ISST sst) {
         Optional<CompletionInfo> completionInfoOptional = CompletionInfo.extractCompletionInfoFrom(sst);
 
         if (!completionInfoOptional.isPresent()) {
+            logger.warn("No completion info is present in provided SST!");
             return null;
         }
 
@@ -26,8 +31,10 @@ public class QueryExtractor {
     }
 
     private static Query extractQuery(CompletionInfo completionInfo, ISST sst) {
-        if (completionInfo.getTriggeredType() == null)
+        if (completionInfo.getTriggeredType() == null) {
+            logger.error("Can not process completion info without a triggered type!");
             return null;
+        }
 
         Query query = new Query(completionInfo.getTriggeredType().getFullName());
 

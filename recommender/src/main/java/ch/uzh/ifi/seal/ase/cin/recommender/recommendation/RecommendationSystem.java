@@ -10,16 +10,17 @@ import ch.uzh.ifi.seal.ase.cin.recommender.persistence.ModelRepository;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.TypeModel;
 import com.google.common.collect.Sets;
-import com.sun.istack.internal.NotNull;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 public class RecommendationSystem implements ICallsRecommender<Query> {
 
     private ModelRepository repository;
     private MethodRecommender recommender;
+    Logger logger = LogManager.getLogger(RecommendationSystem.class);
 
     public RecommendationSystem(ModelRepository repository, MethodRecommender recommender) {
         this.repository = repository;
@@ -28,8 +29,12 @@ public class RecommendationSystem implements ICallsRecommender<Query> {
 
     @Override
     public Set<Tuple<IMethodName, Double>> query(Query query) {
-        if (query == null)
+        if (query == null) {
+            logger.warn("Query is null!");
             return Sets.newHashSet();
+        }
+
+        logger.info("Processing query: " + query.toString());
 
         String modelId = query.getType();
         TypeModel typemodel = getOrCreateTypeModel(modelId);
