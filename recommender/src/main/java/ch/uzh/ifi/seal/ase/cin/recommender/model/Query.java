@@ -1,21 +1,27 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.model;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import java.util.Arrays;
 import java.util.Objects;
 
 public class Query {
-    @JsonIgnore
+
+    private static final String GENERICS_PATTERN = ".+`\\d\\[\\[.+]]";
     private String type;
-    private String[] expectedTypes = new String[] {};
+    private String[] expectedTypes = new String[]{};
     private EnclosingNodeKind enclosingNodeKind = EnclosingNodeKind.DEFAULT;
     private CompletionNodeKind completionNodeKind = CompletionNodeKind.DEFAULT;
     private MethodKind enclosingMethodKind = MethodKind.NONE;
     private Visibility enclosingMethodVisibility = Visibility.NONE;
 
     public Query(String type) {
-        this.type = type;
+        this.type = removeGenerics(type);
+    }
+
+    private String removeGenerics(String type) {
+        if (type.matches(GENERICS_PATTERN))
+            return type.substring(0, type.indexOf("`"));
+
+        return type;
     }
 
     public String getType() {

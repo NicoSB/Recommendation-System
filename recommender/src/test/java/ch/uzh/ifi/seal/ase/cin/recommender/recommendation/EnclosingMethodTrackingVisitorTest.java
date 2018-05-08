@@ -60,4 +60,21 @@ public class EnclosingMethodTrackingVisitorTest {
 
         assertTrue(expected.equals(actual));
     }
+
+    @Test
+    public void whenParentClassIsProvided_returnsFirstSubclassMatch() {
+        IMethodName methodName = mock(IMethodName.class);
+        when(methodName.getFullName()).thenReturn("Test");
+        when(methodName.isStatic()).thenReturn(true);
+
+        MethodProperties expected = new MethodProperties(methodName);
+
+        IStatement statement = completionStmt("Test", "");
+        ISST sst = createSSTWithMethod(methodName, statement);
+
+        walker.walk(sst);
+        MethodProperties actual = sut.getFirstOfClass(ICompletionExpression.class);
+
+        assertTrue(expected.equals(actual));
+    }
 }

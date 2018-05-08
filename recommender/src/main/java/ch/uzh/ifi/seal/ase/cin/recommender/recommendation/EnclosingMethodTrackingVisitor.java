@@ -28,7 +28,7 @@ public class EnclosingMethodTrackingVisitor extends AbstractTraversingNodeVisito
 
     public MethodProperties getFirstOfClass(Class clazz) {
         Optional<Map.Entry<ISSTNode, MethodProperties>> entryOptional = propertiesMap.entrySet().stream()
-                .filter(e -> e.getKey().getClass().equals(clazz))
+                .filter(e -> clazz.isAssignableFrom(e.getKey().getClass()))
                 .findAny();
 
         if (!entryOptional.isPresent())

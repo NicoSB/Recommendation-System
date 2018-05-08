@@ -1,11 +1,12 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.recommendation;
 
 import cc.kave.commons.model.ssts.ISST;
+import cc.kave.commons.model.ssts.expressions.assignable.ICompletionExpression;
 import cc.kave.commons.model.ssts.impl.expressions.assignable.CompletionExpression;
 import cc.kave.commons.model.ssts.visitor.ISSTNode;
-import cc.kave.commons.pointsto.analysis.utils.EnclosingNodeHelper;
 import cc.kave.commons.utils.ssts.SSTNodeHierarchy;
 import cc.kave.commons.utils.ssts.completioninfo.CompletionInfo;
+import cc.kave.commons.utils.ssts.completioninfo.ICompletionInfo;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.EnclosingNodeKind;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.util.SSTUtils;
@@ -15,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-public class QueryExtractor {
+public abstract class QueryExtractor {
 
     private static Logger logger = LogManager.getLogger(QueryExtractor.class);
 
@@ -30,9 +31,9 @@ public class QueryExtractor {
         return extractQuery(completionInfoOptional.get(), sst);
     }
 
-    private static Query extractQuery(CompletionInfo completionInfo, ISST sst) {
+    public static Query extractQuery(ICompletionInfo completionInfo, ISST sst) {
         if (completionInfo.getTriggeredType() == null) {
-            logger.error("Can not process completion info without a triggered type!");
+            logger.warn("Can not process completion info without a triggered type!");
             return null;
         }
 
@@ -60,7 +61,7 @@ public class QueryExtractor {
         return nodeKind;
     }
 
-    private static String[] extractExpectedTypes(CompletionInfo completionInfo) {
+    private static String[] extractExpectedTypes(ICompletionInfo completionInfo) {
         if (!completionInfo.hasExpectedType())
             return new String[]{""};
 
@@ -73,7 +74,7 @@ public class QueryExtractor {
         walker.registerVisitor(visitor);
 
         walker.walk(sst);
-        MethodProperties properties = visitor.getFirstOfClass(CompletionExpression.class);
+        MethodProperties properties = visitor.getFirstOfClass(ICompletionExpression.class);
 
         query.setEnclosingMethodKind(properties.getMethodKind());
         query.setEnclosingMethodVisibility(properties.getVisibility());

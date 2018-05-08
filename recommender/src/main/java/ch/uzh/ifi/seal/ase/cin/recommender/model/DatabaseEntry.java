@@ -2,11 +2,14 @@ package ch.uzh.ifi.seal.ase.cin.recommender.model;
 
 import cc.kave.commons.model.naming.IName;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
+import com.google.gson.annotations.Expose;
 
 import java.util.Objects;
 
 public class DatabaseEntry {
+    @Expose
     private QuerySelectionPair pair;
+    @Expose
     private long frequency;
 
     public DatabaseEntry(Query query, IName selection, long frequency) {

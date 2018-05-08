@@ -7,6 +7,26 @@ import static org.junit.Assert.*;
 public class QueryTest {
 
     @Test
+    public void removesGenericsInformation() {
+        String expected = "System.Collections.Generic.Dictionary";
+        String genericInformation = "`2[[TKey -> p:string],[TValue -> System.Drawing.Bitmap, System.Drawing, 2.0.0.0]]";
+        String fullName = expected + genericInformation;
+
+        Query query = new Query(fullName);
+
+        assertEquals(expected, query.getType());
+    }
+
+    @Test
+    public void doesNotModifyNormalTypeNames() {
+        String expected = "System.Collections.Generic.Dictionary";
+
+        Query query = new Query(expected);
+
+        assertEquals(expected, query.getType());
+    }
+
+    @Test
     public void WhenInstancesAreSame_EqualsIsTrue() {
         Query query = new Query("Type");
 

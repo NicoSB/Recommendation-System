@@ -13,13 +13,4 @@
     <artifactId>recommender</artifactId>
     <name>Implicit User Feedback Recommender System</name>
     <packaging>jar</packaging>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.18.0</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 </project>
