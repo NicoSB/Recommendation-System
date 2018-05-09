@@ -42,14 +42,17 @@ public abstract class QueryExtractor {
         String[] expectedTypes = extractExpectedTypes(completionInfo);
         query.setExpectedTypes(expectedTypes);
 
+        setEnclosingNodeKind(sst, query);
+        setEnclosingMethodProperties(query, sst);
+
+        return query;
+    }
+
+    private static void setEnclosingNodeKind(ISST sst, Query query) {
         SSTNodeHierarchy hierarchy = new SSTNodeHierarchy(sst);
         CompletionExpression completionExpression = SSTUtils.findFirst(sst, CompletionExpression.class);
         EnclosingNodeKind nodeKind = getEnclosingNodeKind(hierarchy, completionExpression);
         query.setEnclosingNodeKind(nodeKind);
-
-        setSSTDependantFields(query, sst);
-
-        return query;
     }
 
     private static EnclosingNodeKind getEnclosingNodeKind(SSTNodeHierarchy hierarchy, ISSTNode node) {
@@ -63,12 +66,12 @@ public abstract class QueryExtractor {
 
     private static String[] extractExpectedTypes(ICompletionInfo completionInfo) {
         if (!completionInfo.hasExpectedType())
-            return new String[]{""};
+            return new String[]{};
 
         return new String[]{completionInfo.getExpectedType().getFullName()};
     }
 
-    private static void setSSTDependantFields(Query query, ISST sst) {
+    private static void setEnclosingMethodProperties(Query query, ISST sst) {
         EnclosingMethodTrackingVisitor visitor = new EnclosingMethodTrackingVisitor();
         EnclosingMethodTrackingWalker walker = new EnclosingMethodTrackingWalker();
         walker.registerVisitor(visitor);

@@ -44,19 +44,19 @@ public class RecommendationSystem implements ICallsRecommender<Query> {
 
     @Override
     public Set<Tuple<IMethodName, Double>> query(Context context) {
-        Query query = convertContext(context);
+        Query query = extractQuery(context);
 
         return query(query);
     }
 
     @Override
     public Set<Tuple<IMethodName, Double>> query(Context context, List<IName> list) {
-        Query query = convertContext(context);
+        Query query = extractQuery(context);
 
         return query(query);
     }
 
-    private Query convertContext(Context context) {
+    private Query extractQuery(Context context) {
         return QueryExtractor.extractQuery(context.getSST());
     }
 

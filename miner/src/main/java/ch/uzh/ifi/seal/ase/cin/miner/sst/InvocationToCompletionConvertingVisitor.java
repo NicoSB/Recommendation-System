@@ -52,18 +52,10 @@ public class InvocationToCompletionConvertingVisitor extends AbstractThrowingNod
 
     @Override
     public ISSTNode visit(IInvocationExpression entity, Void context) {
-        InvocationExpression clone = new InvocationExpression();
-        clone.setMethodName(entity.getMethodName());
-        clone.setReference((IVariableReference) entity.getReference().accept(this, context));
-        for (ISimpleExpression expr : entity.getParameters()) {
-            clone.getParameters().add((ISimpleExpression) expr.accept(this, context));
-        }
-
         ITypeName type = entity.getMethodName().getDeclaringType();
 
         SelectionCompletionExpression completionExpression = new SelectionCompletionExpression(entity.getMethodName().getFullName());
         completionExpression.setTypeReference(type);
-        QueryExtractor.extractQuery(sstClone);
 
         return completionExpression;
     }

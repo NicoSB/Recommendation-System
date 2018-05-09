@@ -16,6 +16,7 @@ public class Miner {
 
         String inputDirectory = args[0];
         String modelDirectory = args[1];
+
         ModelRepository repository = new OnDemandModelRepository(Paths.get(modelDirectory));
         RepositoryUpdater updater = new RepositoryUpdater(repository);
         SSTProcessor sstProcessor = new SSTProcessor(updater);
@@ -26,6 +27,6 @@ public class Miner {
     private static void processZips(String inputDirectory, SSTProcessor sstProcessor) {
         Set<String> zips = FileUtils.findAllZips(inputDirectory);
         ZipProcessor processor = new ZipProcessor(sstProcessor);
-        zips.forEach(z -> processor.processZip(inputDirectory + "\\" + z));
+        zips.forEach(zip -> processor.processZip(Paths.get(inputDirectory, zip).toString()));
     }
 }
