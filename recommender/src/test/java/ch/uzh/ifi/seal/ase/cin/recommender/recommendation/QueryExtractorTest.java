@@ -70,7 +70,7 @@ public class QueryExtractorTest {
 
         Query actual = QueryExtractor.extractQuery(sst);
 
-        assertContains(actual.getExpectedTypes(), "");
+        assertEquals(0, actual.getExpectedTypes().length);
     }
 
     @Test
