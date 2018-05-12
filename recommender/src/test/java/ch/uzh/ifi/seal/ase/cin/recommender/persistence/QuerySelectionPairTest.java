@@ -1,20 +1,30 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.persistence;
 
-import cc.kave.commons.model.naming.IName;
+import cc.kave.commons.model.naming.IGenericName;
+import cc.kave.commons.model.naming.Names;
+import cc.kave.commons.model.naming.codeelements.IMethodName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
+import cc.kave.commons.model.naming.types.ITypeParameterName;
+import cc.kave.commons.pointsto.analysis.utils.GenericNameUtils;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import sun.net.www.content.text.Generic;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QuerySelectionPairTest {
 
     @Mock
-    private IName name;
+    private MethodName name;
 
     @Test
     public void WhenInstancesAreSame_EqualsIsTrue() {
@@ -78,7 +88,7 @@ public class QuerySelectionPairTest {
     @Test
     public void WhenSelectionsAreDifferent_EqualsIsFalse() {
         Query query = new Query("Type");
-        IName name2 = Mockito.mock(IName.class);
+        MethodName name2 = Mockito.mock(MethodName.class);
 
         QuerySelectionPair pair1 = new QuerySelectionPair(query, name);
         QuerySelectionPair pair2 = new QuerySelectionPair(query, name2);
@@ -90,11 +100,21 @@ public class QuerySelectionPairTest {
     @Test
     public void WhenSelectionsAreDifferent_HashCodesAreNotEqual() {
         Query query = new Query("Type");
-        IName name2 = Mockito.mock(IName.class);
+        MethodName name2 = Mockito.mock(MethodName.class);
 
         QuerySelectionPair pair1 = new QuerySelectionPair(query, name);
         QuerySelectionPair pair2 = new QuerySelectionPair(query, name2);
 
         assertNotEquals(pair1.hashCode(), pair2.hashCode());
     }
+
+    @Test
+    public void removesGenerics() {
+        MethodName methodName = (MethodName) Names.newMethod("M:static [TSource] [System.Linq.Enumerable, System.Core, 4.0.0.0].FirstOrDefault`1[[TSource -> ACAT.Lib.Core.ActuatorManagement.ActuatorEx, Core]](this [i:System.Collections.Generic.IEnumerable`1[[T]], mscorlib, 4.0.0.0] source, [d:[TResult] [System.Func`2[[T],[TResult]], mscorlib, 4.0.0.0].([T] arg)] predicate)");
+        Query query = new Query("Test");
+        QuerySelectionPair pair = new QuerySelectionPair(query, methodName);
+
+        assertEquals("M:static [TSource] [System.Linq.Enumerable, System.Core, 4.0.0.0].FirstOrDefault`1[[TSource]](this [i:System.Collections.Generic.IEnumerable`1[[T]], mscorlib, 4.0.0.0] source, [d:[TResult] [System.Func`2[[T],[TResult]], mscorlib, 4.0.0.0].([T] arg)] predicate)", pair.getSelection().getIdentifier());
+    }
+
 }

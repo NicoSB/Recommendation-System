@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.ase.cin.miner.sst;
 
-import cc.kave.commons.model.naming.codeelements.IMethodName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import cc.kave.commons.model.ssts.ISST;
 import cc.kave.commons.model.ssts.IStatement;
 import cc.kave.commons.model.ssts.expressions.assignable.ICompletionExpression;
@@ -27,7 +27,7 @@ public class InvocationToCompletionConvertingVisitorTest {
 
     @Test
     public void convertsMethodInvocation() {
-        IMethodName methodName = mock(IMethodName.class);
+        MethodName methodName = mock(MethodName.class);
         when(methodName.getFullName()).thenReturn("testMethod");
         when(methodName.getDeclaringType()).thenReturn(INT);
 

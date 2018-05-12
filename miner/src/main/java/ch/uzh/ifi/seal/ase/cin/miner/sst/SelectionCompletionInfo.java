@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.ase.cin.miner.sst;
 
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import cc.kave.commons.model.naming.types.ITypeName;
 import cc.kave.commons.model.ssts.expressions.assignable.ICompletionExpression;
 import cc.kave.commons.utils.ssts.completioninfo.ICompletionInfo;
@@ -8,7 +9,7 @@ public class SelectionCompletionInfo implements ICompletionInfo {
     private ICompletionExpression completionExpr;
     private ITypeName triggeredType;
     private ITypeName expectedType;
-    private String selection;
+    private MethodName selection;
 
     public ICompletionExpression getCompletionExpr() {
         return completionExpr;
@@ -39,11 +40,11 @@ public class SelectionCompletionInfo implements ICompletionInfo {
         this.expectedType = expectedType;
     }
 
-    public String getSelection() {
+    public MethodName getSelection() {
         return selection;
     }
 
-    public void setSelection(String selection) {
+    public void setSelection(MethodName selection) {
         this.selection = selection;
     }
 }

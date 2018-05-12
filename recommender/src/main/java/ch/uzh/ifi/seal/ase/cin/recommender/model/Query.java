@@ -3,9 +3,10 @@ package ch.uzh.ifi.seal.ase.cin.recommender.model;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static ch.uzh.ifi.seal.ase.cin.recommender.util.SSTUtils.getFullyQualifiedIdentifier;
+
 public class Query {
 
-    private static final String GENERICS_PATTERN = ".+`\\d\\[\\[.+]]";
     private String type;
     private String[] expectedTypes = new String[]{};
     private EnclosingNodeKind enclosingNodeKind = EnclosingNodeKind.DEFAULT;
@@ -14,14 +15,7 @@ public class Query {
     private Visibility enclosingMethodVisibility = Visibility.NONE;
 
     public Query(String type) {
-        this.type = removeGenerics(type);
-    }
-
-    private String removeGenerics(String type) {
-        if (type.matches(GENERICS_PATTERN))
-            return type.substring(0, type.indexOf("`"));
-
-        return type;
+        this.type = getFullyQualifiedIdentifier(type);
     }
 
     public String getType() {
@@ -70,6 +64,10 @@ public class Query {
 
     public void setEnclosingMethodVisibility(Visibility enclosingMethodVisibility) {
         this.enclosingMethodVisibility = enclosingMethodVisibility;
+    }
+
+    public boolean isTypeUnknown() {
+        return type == null || "?".equals(type);
     }
 
     @Override

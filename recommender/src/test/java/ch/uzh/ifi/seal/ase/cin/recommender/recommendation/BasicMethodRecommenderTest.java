@@ -1,7 +1,9 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.recommendation;
 
 import cc.kave.commons.model.naming.codeelements.IMethodName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import cc.kave.rsse.calls.datastructures.Tuple;
+import ch.uzh.ifi.seal.ase.cin.SSTTestUtils;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.DatabaseEntry;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
@@ -38,7 +40,8 @@ public class BasicMethodRecommenderTest {
     }
 
     private DatabaseEntry createDatabaseEntry(String type, String selection, int frequency) {
-        QuerySelectionPair pair = new QuerySelectionPair(new Query(type), selection);
+        MethodName methodName = new MethodName(selection);
+        QuerySelectionPair pair = new QuerySelectionPair(new Query(type), methodName);
         return new DatabaseEntry(pair, frequency);
     }
 

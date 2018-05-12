@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.ase.cin.miner;
 
 import cc.kave.commons.model.naming.codeelements.IMethodName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import cc.kave.commons.model.ssts.ISST;
 import cc.kave.commons.model.ssts.IStatement;
 import cc.kave.commons.model.ssts.expressions.assignable.ICompletionExpression;
@@ -33,11 +34,11 @@ public class SSTTestUtils {
     }
 
 
-    public static IExpressionStatement selectionCompletionStatement(String id, String token, String selection) {
+    public static IExpressionStatement selectionCompletionStatement(String id, String token, MethodName selection) {
         return exprStmt(selectionCompletionExpression(id, token, selection));
     }
 
-    private static ICompletionExpression selectionCompletionExpression(String id, String token, String selection) {
+    private static ICompletionExpression selectionCompletionExpression(String id, String token, MethodName selection) {
         SelectionCompletionExpression expr = new SelectionCompletionExpression(selection);
         expr.setObjectReference(varRef(id));
         expr.setToken(token);

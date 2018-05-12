@@ -1,22 +1,23 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.persistence;
 
-import cc.kave.commons.model.naming.IName;
+import cc.kave.commons.model.naming.Names;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
+import cc.kave.commons.pointsto.analysis.utils.GenericNameUtils;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
+import ch.uzh.ifi.seal.ase.cin.recommender.util.SSTUtils;
+import sun.net.www.content.text.Generic;
 
 import java.util.Objects;
 
 public class QuerySelectionPair {
     private Query query;
-    private String selection;
+    private MethodName selection;
 
-    public QuerySelectionPair(Query query, IName selection) {
-        this(query, selection.toString());
-    }
-
-    public QuerySelectionPair(Query query, String selection) {
+    public QuerySelectionPair(Query query, MethodName selection) {
         this.query = query;
-        this.selection = selection;
+        this.selection = (MethodName) SSTUtils.removeGenerics(selection);;
     }
+
 
     public Query getQuery() {
         return query;
@@ -26,12 +27,12 @@ public class QuerySelectionPair {
         this.query = query;
     }
 
-    public String getSelection() {
+    public MethodName getSelection() {
         return selection;
     }
 
-    public void setSelection(IName selection) {
-        this.selection = selection.toString();
+    public void setSelection(MethodName selection) {
+        this.selection = selection;
     }
 
     @Override

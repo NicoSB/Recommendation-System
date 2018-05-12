@@ -19,11 +19,14 @@ public class BasicMethodRecommender implements MethodRecommender {
                 .filter(pair -> pair.getQuery().equals(query))
                 .collect(Collectors.toList());
 
+        if (entries.isEmpty())
+            return new HashSet<>();
+
         int totalFrequency = calculateTotalFrequency(entries);
         Set<Tuple<IMethodName, Double>> methods = new HashSet<>();
 
         for (DatabaseEntry entry : entries) {
-            methods.add(Tuple.newTuple(new MethodName(entry.getSelection()), (double) entry.getFrequency() / totalFrequency));
+            methods.add(Tuple.newTuple(entry.getSelection(), (double) entry.getFrequency() / totalFrequency));
         }
 
         return methods;

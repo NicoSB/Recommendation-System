@@ -222,4 +222,25 @@ public class QueryTest {
 
         assertNotEquals(query1.hashCode(), query2.hashCode());
     }
+
+    @Test
+    public void isUnknown_whenTypeIsQuestionMark_returnsTrue() {
+        Query query = new Query("?");
+
+        assertTrue(query.isTypeUnknown());
+    }
+
+    @Test
+    public void isUnknown_whenTypeIsNull_returnsTrue() {
+        Query query = new Query(null);
+
+        assertTrue(query.isTypeUnknown());
+    }
+
+    @Test
+    public void isUnknown_whenTypeIsNormal_returnsFalse() {
+        Query query = new Query("Test");
+
+        assertFalse(query.isTypeUnknown());
+    }
 }

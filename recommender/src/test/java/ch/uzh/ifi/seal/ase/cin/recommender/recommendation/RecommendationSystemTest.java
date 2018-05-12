@@ -1,10 +1,9 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.recommendation;
 
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.ModelRepository;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.TypeModel;
-import ch.uzh.ifi.seal.ase.cin.recommender.recommendation.MethodRecommender;
-import ch.uzh.ifi.seal.ase.cin.recommender.recommendation.RecommendationSystem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
@@ -33,7 +32,7 @@ public class RecommendationSystemTest {
         String selection = "Selection";
 
         when(repository.find(query.getType())).thenReturn(new TypeModel(query.getType()));
-        sut.updateModel(query, selection);
+        sut.updateModel(query, new MethodName(selection));
 
         verify(repository, times(1)).save(ArgumentMatchers.any());
     }
@@ -43,7 +42,7 @@ public class RecommendationSystemTest {
         Query query = new Query("Type");
         String selection = "Selection";
 
-        sut.updateModel(query, selection);
+        sut.updateModel(query, new MethodName(selection));
 
         verify(repository, times(1)).save(argThat(typeModel -> query.getType().equals(typeModel.getType())));
     }

@@ -1,7 +1,9 @@
 package ch.uzh.ifi.seal.ase.cin.miner.sst;
 
 import cc.kave.commons.model.naming.Names;
+import cc.kave.commons.model.naming.codeelements.IMethodName;
 import cc.kave.commons.model.naming.codeelements.IParameterName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import cc.kave.commons.model.naming.types.ITypeName;
 import cc.kave.commons.model.ssts.ISST;
 import cc.kave.commons.model.ssts.blocks.*;
@@ -25,11 +27,11 @@ public class MultipleCompletionInfoVisitor extends AbstractTraversingNodeVisitor
     private VariableScope<ITypeName> variables = new VariableScope<>(VariableScope.ErrorHandling.IGNORE);
     private List<SelectionCompletionInfo> completionInfos = new ArrayList<>();
     private SelectionCompletionInfo currentCompletionInfo;
+    private OnceRetrievableValue<ITypeName> onceExpectedType = new OnceRetrievableValue<>();
 
     @Override
     public Void visit(ISST sst, Void aVoid) {
         super.visit(sst, aVoid);
-        currentCompletionInfo = new SelectionCompletionInfo();
 
         return null;
     }
@@ -39,12 +41,13 @@ public class MultipleCompletionInfoVisitor extends AbstractTraversingNodeVisitor
         if (!(expr instanceof SelectionCompletionExpression))
             return null;
 
-        completionInfos.add(currentCompletionInfo);
         currentCompletionInfo = new SelectionCompletionInfo();
+        completionInfos.add(currentCompletionInfo);
 
         currentCompletionInfo.setCompletionExpr(expr);
+        currentCompletionInfo.setExpectedType(onceExpectedType.get());
         SelectionCompletionExpression selectionExpression = (SelectionCompletionExpression) expr;
-        currentCompletionInfo.setSelection(selectionExpression.getSelection());
+        currentCompletionInfo.setSelection((MethodName) Names.newMethod(selectionExpression.getSelection().getIdentifier()));
 
         if (expr.getTypeReference() != null) {
             currentCompletionInfo.setTriggeredType(expr.getTypeReference());
@@ -84,8 +87,7 @@ public class MultipleCompletionInfoVisitor extends AbstractTraversingNodeVisitor
     public Void visit(IAssignment stmt, Void context) {
         if (stmt.getExpression() instanceof ICompletionExpression) {
             IAssignableReference ref = stmt.getReference();
-            currentCompletionInfo = new SelectionCompletionInfo();
-            currentCompletionInfo.setExpectedType(ref.accept(refTypeVisitor, variables));
+            onceExpectedType.set(ref.accept(refTypeVisitor, variables));
         }
         return super.visit(stmt, context);
     }
@@ -208,5 +210,20 @@ public class MultipleCompletionInfoVisitor extends AbstractTraversingNodeVisitor
 
     public List<SelectionCompletionInfo> getCompletionInfos() {
         return completionInfos;
+    }
+
+    private class OnceRetrievableValue<T> {
+        private T value;
+
+        public void set(T value) {
+            this.value = value;
+        }
+
+        public T get() {
+            T cache = value;
+            value = null;
+
+            return cache;
+        }
     }
 }

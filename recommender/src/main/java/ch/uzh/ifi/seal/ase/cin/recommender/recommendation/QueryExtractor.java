@@ -1,9 +1,11 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.recommendation;
 
+import cc.kave.commons.model.naming.types.ITypeName;
 import cc.kave.commons.model.ssts.ISST;
 import cc.kave.commons.model.ssts.expressions.assignable.ICompletionExpression;
 import cc.kave.commons.model.ssts.impl.expressions.assignable.CompletionExpression;
 import cc.kave.commons.model.ssts.visitor.ISSTNode;
+import cc.kave.commons.pointsto.analysis.utils.GenericNameUtils;
 import cc.kave.commons.utils.ssts.SSTNodeHierarchy;
 import cc.kave.commons.utils.ssts.completioninfo.CompletionInfo;
 import cc.kave.commons.utils.ssts.completioninfo.ICompletionInfo;
@@ -68,7 +70,9 @@ public abstract class QueryExtractor {
         if (!completionInfo.hasExpectedType())
             return new String[]{};
 
-        return new String[]{completionInfo.getExpectedType().getFullName()};
+        ITypeName genericsRemoved = GenericNameUtils.eraseGenericInstantiations(completionInfo.getExpectedType());
+
+        return new String[]{genericsRemoved.getFullName()};
     }
 
     private static void setEnclosingMethodProperties(Query query, ISST sst) {

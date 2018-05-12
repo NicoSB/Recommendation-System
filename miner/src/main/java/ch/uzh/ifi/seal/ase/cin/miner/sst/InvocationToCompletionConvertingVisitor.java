@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.ase.cin.miner.sst;
 
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import cc.kave.commons.model.naming.types.ITypeName;
 import cc.kave.commons.model.ssts.IReference;
 import cc.kave.commons.model.ssts.ISST;
@@ -36,11 +37,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InvocationToCompletionConvertingVisitor extends AbstractThrowingNodeVisitor<Void, ISSTNode> {
-    private SST sstClone;
+    private boolean hasCompletionExpression = false;
+
+    public boolean hasCompletionExpression() {
+        return hasCompletionExpression;
+    }
 
     @Override
     public ISSTNode visit(ISST sst, Void context) {
-        sstClone = new SST();
+        SST sstClone = new SST();
         sstClone.setEnclosingType(sst.getEnclosingType());
         sstClone.setPartialClassIdentifier(sst.getPartialClassIdentifier());
         for (IMethodDeclaration method : sst.getMethods()) {
@@ -54,8 +59,10 @@ public class InvocationToCompletionConvertingVisitor extends AbstractThrowingNod
     public ISSTNode visit(IInvocationExpression entity, Void context) {
         ITypeName type = entity.getMethodName().getDeclaringType();
 
-        SelectionCompletionExpression completionExpression = new SelectionCompletionExpression(entity.getMethodName().getFullName());
+        SelectionCompletionExpression completionExpression = new SelectionCompletionExpression((MethodName) entity.getMethodName());
         completionExpression.setTypeReference(type);
+
+        hasCompletionExpression = true;
 
         return completionExpression;
     }

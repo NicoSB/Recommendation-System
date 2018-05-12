@@ -1,19 +1,21 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.model;
 
-import cc.kave.commons.model.naming.IName;
+import cc.kave.commons.model.naming.codeelements.IMethodName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DatabaseEntryTest {
 
     @Mock
-    private IName name;
+    private MethodName name;
 
     @Test
     public void WhenInstancesAreSame_EqualsIsTrue() {
@@ -77,7 +79,7 @@ public class DatabaseEntryTest {
 
     @Test
     public void WhenNamesAreDifferent_EqualsIsFalse() {
-        IName name2 = Mockito.mock(IName.class);
+        MethodName name2 = Mockito.mock(MethodName.class);
         Query query = new Query("Type");
         int frequency = 0;
 
@@ -89,7 +91,7 @@ public class DatabaseEntryTest {
 
     @Test
     public void WhenNamesAreDifferent_HashCodesAreNotEqual() {
-        IName name2 = Mockito.mock(IName.class);
+        MethodName name2 = Mockito.mock(MethodName.class);
         Query query = new Query("Type");
         int frequency = 0;
 

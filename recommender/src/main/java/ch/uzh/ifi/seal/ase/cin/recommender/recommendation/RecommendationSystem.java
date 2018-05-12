@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.ase.cin.recommender.recommendation;
 import cc.kave.commons.model.events.completionevents.Context;
 import cc.kave.commons.model.naming.IName;
 import cc.kave.commons.model.naming.codeelements.IMethodName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import cc.kave.rsse.calls.ICallsRecommender;
 import cc.kave.rsse.calls.datastructures.Tuple;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
@@ -65,7 +66,7 @@ public class RecommendationSystem implements ICallsRecommender<Query> {
         return 0;
     }
 
-    public void updateModel(Query query, String selection) {
+    public void updateModel(Query query, MethodName selection) {
         String modelId = query.getType();
         TypeModel typeModel = getOrCreateTypeModel(modelId);
         QuerySelectionPair pair = new QuerySelectionPair(query, selection);

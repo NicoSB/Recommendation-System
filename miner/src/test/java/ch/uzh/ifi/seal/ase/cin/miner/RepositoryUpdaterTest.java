@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.ase.cin.miner;
 
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.ModelRepository;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
@@ -24,28 +25,30 @@ public class RepositoryUpdaterTest {
 
     @Test
     public void updatesModelRepository() {
-        String test = "Test";
-        QuerySelectionPair pair = new QuerySelectionPair(new Query(test), test);
+        String typeName = "Test";
+        MethodName methodName = new MethodName("Test");
+        QuerySelectionPair pair = new QuerySelectionPair(new Query(typeName), methodName);
 
         sut.insertPair(pair);
 
-        verify(repository, times(1)).save(argThat(r -> r.getType().equals(test)));
+        verify(repository, times(1)).save(argThat(r -> r.getType().equals(typeName)));
     }
 
     @Test
     public void whenQueryIsNull_doesNotUpdateModelRepository() {
-        String test = "Test";
-        QuerySelectionPair pair = new QuerySelectionPair(null, test);
+        String typeName = "Test";
+        MethodName methodName = new MethodName("Test");
+        QuerySelectionPair pair = new QuerySelectionPair(null, methodName);
 
         sut.insertPair(pair);
 
-        verify(repository, times(0)).save(argThat(r -> r.getType().equals(test)));
+        verify(repository, times(0)).save(argThat(r -> r.getType().equals(typeName)));
     }
 
     @Test
     public void whenSelectionIsNull_doesNotUpdateModelRepository() {
         String test = "Test";
-        QuerySelectionPair pair = new QuerySelectionPair(new Query(test), (String) null);
+        QuerySelectionPair pair = new QuerySelectionPair(new Query(test), null);
 
         sut.insertPair(pair);
 

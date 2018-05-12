@@ -16,21 +16,21 @@ import org.junit.Test;
 
 import static cc.kave.commons.model.ssts.impl.SSTUtil.simpleIf;
 import static cc.kave.commons.utils.ssts.SSTUtils.*;
-import static ch.uzh.ifi.seal.ase.cin.TestUtils.assertContains;
 import static ch.uzh.ifi.seal.ase.cin.SSTTestUtils.createSSTWithMethod;
+import static ch.uzh.ifi.seal.ase.cin.TestUtils.assertContains;
+import static ch.uzh.ifi.seal.ase.cin.recommender.recommendation.QueryExtractor.extractQuery;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class QueryExtractorTest {
 
     @Test
-    public void whenNoCompletionExpressionWasFound_ReturnsNull () {
+    public void whenNoCompletionExpressionWasFound_ReturnsNull() {
         ISST sst = new SST();
 
-        Query actual = QueryExtractor.extractQuery(sst);
+        Query actual = extractQuery(sst);
 
         assertNull(actual);
     }
@@ -41,7 +41,7 @@ public class QueryExtractorTest {
         IStatement statement = completionStmt(typeName, "");
         ISST sst = createSSTWithMethod(null, statement);
 
-        Query actual = QueryExtractor.extractQuery(sst);
+        Query actual = extractQuery(sst);
 
         assertEquals(typeName.getFullName(), actual.getType());
     }
@@ -57,7 +57,7 @@ public class QueryExtractorTest {
 
         ISST sst = createSSTWithMethod(null, variableDeclaration, assignment);
 
-        Query actual = QueryExtractor.extractQuery(sst);
+        Query actual = extractQuery(sst);
 
         assertContains(actual.getExpectedTypes(), typeName.getFullName());
     }
@@ -68,7 +68,7 @@ public class QueryExtractorTest {
         IStatement statement = completionStmt(typeName, "");
         ISST sst = createSSTWithMethod(null, statement);
 
-        Query actual = QueryExtractor.extractQuery(sst);
+        Query actual = extractQuery(sst);
 
         assertEquals(0, actual.getExpectedTypes().length);
     }
@@ -84,7 +84,7 @@ public class QueryExtractorTest {
 
         ISST sst = createSSTWithMethod(methodName, statement);
 
-        Query actual = QueryExtractor.extractQuery(sst);
+        Query actual = extractQuery(sst);
 
         assertEquals(MethodKind.CLASS, actual.getEnclosingMethodKind());
     }
@@ -100,7 +100,7 @@ public class QueryExtractorTest {
 
         ISST sst = createSSTWithMethod(methodName, statement);
 
-        Query actual = QueryExtractor.extractQuery(sst);
+        Query actual = extractQuery(sst);
 
         assertEquals(MethodKind.INSTANCE, actual.getEnclosingMethodKind());
     }
@@ -118,7 +118,7 @@ public class QueryExtractorTest {
 
         ISST sst = createSSTWithMethod(methodName, ifBlock);
 
-        Query actual = QueryExtractor.extractQuery(sst);
+        Query actual = extractQuery(sst);
 
         assertEquals(EnclosingNodeKind.BRANCHING_CONDITION, actual.getEnclosingNodeKind());
     }

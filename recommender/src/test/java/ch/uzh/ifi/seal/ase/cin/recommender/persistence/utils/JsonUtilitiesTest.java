@@ -1,7 +1,7 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.persistence.utils;
 
-import cc.kave.commons.model.naming.IName;
-import cc.kave.commons.model.naming.impl.v0.types.ArrayTypeName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
+import cc.kave.commons.utils.io.json.JsonUtils;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.TypeModel;
@@ -16,7 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class JsonUtilitiesTest {
 
@@ -37,7 +38,7 @@ public class JsonUtilitiesTest {
     }
 
     @Test
-    public void CreatesJsonFileBasedOnTypeName() throws IOException {
+    public void CreatesJsonFileBasedOnTypeName() {
         TypeModel model = new TypeModel("Test");
         String expectedFileName = model.getType() + ".json";
 
@@ -48,11 +49,11 @@ public class JsonUtilitiesTest {
     }
 
     @Test
-    public void CorrectlyDeserializesFile() throws IOException {
+    public void CorrectlyDeserializesFile() {
         TypeModel expected = new TypeModel("Test");
         String expectedFileName = expected.getType() + ".json";
 
-        IName selection = createSerializableName();
+        MethodName selection = new MethodName("Test");
 
         Query query = new Query("Type");
         QuerySelectionPair pair = new QuerySelectionPair(query, selection);
@@ -68,10 +69,11 @@ public class JsonUtilitiesTest {
     }
 
     @Test
-    public void WhenFileExists_FileIsOverwritten() throws IOException {
-        TypeModel typeModel = new TypeModel("Test");
+    public void WhenFileExists_FileIsOverwritten() {
+        String modelName = "Test";
+        TypeModel typeModel = new TypeModel(modelName);
         String expectedFileName = typeModel.getType() + ".json";
-        IName selection = createSerializableName();
+        MethodName selection = new MethodName("test");
         Path filePath = Paths.get(directory.toString(), expectedFileName);
 
         Query query = new Query("Type");
@@ -79,18 +81,13 @@ public class JsonUtilitiesTest {
         typeModel.insertPairOrIncreaseFrequency(pair);
         JsonUtilities.store(directory.toString(), typeModel);
 
-        TypeModel expected = new TypeModel("Test");
-        Query query2 = new Query("Type2");
+        TypeModel expected = new TypeModel(modelName);
+        Query query2 = new Query("Type");
         QuerySelectionPair pair2 = new QuerySelectionPair(query2, selection);
-        typeModel.insertPairOrIncreaseFrequency(pair2);
-        JsonUtilities.store(directory.toString(), expected);
+        expected.insertPairOrIncreaseFrequency(pair2);
+        JsonUtilities.store(directory.toString(), typeModel);
 
         TypeModel deserialized = JsonUtilities.load(filePath.toString());
-
         assertEquals(expected, deserialized);
-    }
-
-    private IName createSerializableName() {
-        return new ArrayTypeName("id");
     }
 }

@@ -4,8 +4,6 @@ import ch.uzh.ifi.seal.ase.cin.recommender.persistence.utils.JsonUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -28,13 +26,7 @@ public class OnDemandModelRepository implements ModelRepository {
     }
 
     private void persist(TypeModel model) {
-        try {
-            JsonUtilities.store(directory.toString(), model);
-        } catch (IOException e) {
-            logger.warn("{} could not be saved to the file system!", model.getType());
-        } catch (InvalidPathException e) {
-            logger.warn("Can not store information for invalid TypeName '{}'!", model.getType());
-        }
+        JsonUtilities.store(directory.toString(), model);
     }
 
     @Override

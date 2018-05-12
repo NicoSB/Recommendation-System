@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.persistence;
 
-import cc.kave.commons.model.naming.IName;
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.DatabaseEntry;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import org.junit.Before;
@@ -9,9 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TypeModelTest {
@@ -19,7 +17,7 @@ public class TypeModelTest {
     private TypeModel _sut;
 
     @Mock
-    private IName name;
+    private MethodName name;
 
     @Before
     public void setUp() {

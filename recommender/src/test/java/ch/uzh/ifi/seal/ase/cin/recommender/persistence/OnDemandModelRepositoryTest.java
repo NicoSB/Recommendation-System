@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.ase.cin.recommender.persistence;
 
+import cc.kave.commons.model.naming.impl.v0.codeelements.MethodName;
 import ch.uzh.ifi.seal.ase.cin.recommender.model.Query;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -59,7 +60,7 @@ public class OnDemandModelRepositoryTest {
     public void WhenModelWithSameNameIsAlreadyStored_OverwritesModel() {
         TypeModel model = new TypeModel("Type");
         TypeModel expected = new TypeModel("Type");
-        expected.insertPairOrIncreaseFrequency(new QuerySelectionPair(new Query(model.getType()), model.getType()));
+        expected.insertPairOrIncreaseFrequency(new QuerySelectionPair(new Query(model.getType()), new MethodName("Test")));
 
         _sut.save(model);
         _sut.save(expected);
