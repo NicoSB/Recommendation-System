@@ -12,6 +12,7 @@ import ch.uzh.ifi.seal.ase.cin.recommender.recommendation.RecommendationSystem;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -73,7 +74,11 @@ public class Example {
     }
 
     private static void printResults(Set<Tuple<IMethodName, Double>> results) {
-        results.forEach(System.out::println);
+        results.stream().sorted(Example::sort).forEach(System.out::println);
+    }
+
+    private static int sort(Tuple<IMethodName, Double> t1, Tuple<IMethodName, Double> t2) {
+        return Double.compare(t2.getSecond(), t1.getSecond());
     }
 
     private static void demonstrateMinedModel(Query query) {
