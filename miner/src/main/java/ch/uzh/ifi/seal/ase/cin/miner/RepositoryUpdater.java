@@ -1,13 +1,12 @@
 package ch.uzh.ifi.seal.ase.cin.miner;
 
-import ch.uzh.ifi.seal.ase.cin.recommender.persistence.ModelRepository;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.QuerySelectionPair;
 import ch.uzh.ifi.seal.ase.cin.recommender.persistence.TypeModel;
 
 public class RepositoryUpdater {
-    private ModelRepository repository;
+    private InMemoryRepository repository;
 
-    public RepositoryUpdater(ModelRepository repository) {
+    public RepositoryUpdater(InMemoryRepository repository) {
         this.repository = repository;
     }
 
@@ -24,4 +23,8 @@ public class RepositoryUpdater {
         repository.save(model);
     }
 
+    public void store() {
+        repository.store();
+        repository.clear();
+    }
 }

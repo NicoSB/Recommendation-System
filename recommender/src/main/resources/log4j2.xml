@@ -9,5 +9,11 @@
         <Root level="WARN">
             <AppenderRef ref="Console"/>
         </Root>
+        <Logger name="ch.uzh.ifi.seal.ase.cin.miner.Miner" level="trace" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="ch.uzh.ifi.seal.ase.cin.miner.ZipProcessor" level="trace" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
     </Loggers>
 </Configuration>

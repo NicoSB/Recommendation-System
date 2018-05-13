@@ -60,4 +60,8 @@ public class SSTProcessor {
                updater.insertPair(pair);
         }
     }
+
+    public void store() {
+        updater.store();
+    }
 }

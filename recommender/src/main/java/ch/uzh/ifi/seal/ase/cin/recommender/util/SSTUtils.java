@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSTUtils {
-    private static final String GENERICS_PATTERN = ".+`\\d\\[\\[.+]]";
-    public static final String GENERIC_INSTANTIATION_PATTERN = " -> [\\w:\\.\\, ]+";
+    private static final String GENERICS_PATTERN = ".+`\\d\\[\\[.+]](\\+\\w+)?";
+    private static final String GENERIC_INSTANTIATION_PATTERN = " -> [\\w:\\.\\,\\s\\?]+";
 
     public static <TExpression extends ISSTNode> TExpression findFirst(ISSTNode node, Class<TExpression> clazz) {
         if (!(ISSTNode.class.isAssignableFrom(clazz)))
