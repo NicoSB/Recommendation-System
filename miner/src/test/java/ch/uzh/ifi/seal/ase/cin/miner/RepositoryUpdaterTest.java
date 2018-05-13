@@ -21,7 +21,7 @@ public class RepositoryUpdaterTest {
     private RepositoryUpdater sut;
 
     @Mock
-    private ModelRepository repository;
+    private InMemoryRepository repository;
 
     @Test
     public void updatesModelRepository() {
