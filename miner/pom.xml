@@ -17,6 +17,34 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <build>
+        <finalName>miner</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>ch.uzh.ifi.seal.ase.cin.miner.Miner</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <artifactId>miner</artifactId>
     <name>Implicit User Feedback Recommender System Miner</name>
     <packaging>jar</packaging>
