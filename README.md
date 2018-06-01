@@ -31,16 +31,17 @@ The recommendation system itself is an implementation of KaVE's _ICallsRecommend
 This project includes a miner which uses KaVE's [context data set](http://www.kave.cc/datasets). The miner analyzes method invocations to build an initial model. 
 
 ## Evaluation
-The current implementation was tested against XXX completions collected by [KaVE](http://www.kave.cc/datasets) from real life developer work. The tested model was gained by the mainer as explained above. The results are presented in the table below:
+The current implementation was tested against 175'000 completions collected by [KaVE](http://www.kave.cc/datasets) from real life developer work containing almost 4000 method invocations. The tested model was gained by the mainer as explained above. The results are presented in the table below:
 
 | Events            | Exact Method  | Method Name   |
 | ----------------- |:-------------:| -------------:|
-| Total             |               |               |
-| Top proposal      |               |         $1600 |
-| Top 10 proposals  |               |               |
+| Total             |  3942         |               |
+| Top proposal      |   249 (7%)    |               |
+| Top 10 proposals  |   470 (13%)   |               |
 
-We evaluated whether the actual selection was within the best 1 or 10 proposed methods. 
-There are several reasons for the low values:
+We evaluated whether the actual selection was within the best 1 or 10 proposed methods. Additionally, we compared the results between matching the correct overloaded method and the correct method name (i.e. ignoring overloading).
+
+There are several reasons explaining the results:
 - The method recommender uses exact query matching which results in low matchin queries. Amann proposed a nearest neighbour approach which has not been implemented yet.
 - The results are heavily dependent on the overlap of the libraries used in the test and validation set respectively. Method recommendation based on implicit developer feedback provides only value for libraries that have been used before.
 - The recommendation system's strength is incremental, i.e. it gets better the more it is used. For this course, we were not able to conduct a long term study which would provide better insight on the strength of this approach.
