@@ -83,6 +83,11 @@ public abstract class QueryExtractor {
         walker.walk(sst);
         MethodProperties properties = visitor.getFirstOfClass(ICompletionExpression.class);
 
+        if (properties == null) {
+            logger.warn("SST of '{}' did not contain a CompletionExpression!", sst.getEnclosingType().getName());
+            return;
+        }
+
         query.setEnclosingMethodKind(properties.getMethodKind());
         query.setEnclosingMethodVisibility(properties.getVisibility());
     }

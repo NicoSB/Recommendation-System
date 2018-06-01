@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %msg%n}"/>
+        </Console>
+        <File name="EvaluationLog" fileName="logs/evaluation.log">
+            <PatternLayout>
+                <Pattern>%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %msg%n}</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="WARN">
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger name="ch.uzh.ifi.seal.ase.cin.evaluation.evaluation.Evaluator" level="info" additivity="false">
+            <AppenderRef ref="EvaluationLog"/>
+        </Logger>
+    </Loggers>
+</Configuration>

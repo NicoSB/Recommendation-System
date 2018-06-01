@@ -17,11 +17,12 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 public class RecommendationSystem implements ICallsRecommender<Query> {
 
     private ModelRepository repository;
     private MethodRecommender recommender;
-    Logger logger = LogManager.getLogger(RecommendationSystem.class);
+    private Logger logger = LogManager.getLogger(RecommendationSystem.class);
 
     public RecommendationSystem(ModelRepository repository, MethodRecommender recommender) {
         this.repository = repository;

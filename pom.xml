@@ -88,5 +88,6 @@
     <modules>
         <module>recommender</module>
         <module>miner</module>
+        <module>evaluation</module>
     </modules>
 </project>
