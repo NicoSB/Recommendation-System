@@ -27,6 +27,9 @@ A sample implementation of a method recommender is located at
 
 The recommendation system itself is an implementation of KaVE's _ICallsRecommender_ interface. Additionally, RecommendatonSystem provides a method to provide actual user selections. This allows the model to improve based on implicit developer feedback.
 
+### Sample Model
+A sample model can be found [here](https://drive.google.com/open?id=125qwbkRkihYqJwkXIs_aGyMEOsfU3FRa). In order to use it, you need to provide a valid link to the repository. For this purpose, take a look at the previously mentioned examples.
+
 ## Mining
 This project includes a miner which uses KaVE's [context data set](http://www.kave.cc/datasets). The miner analyzes method invocations to build an initial model. 
 
